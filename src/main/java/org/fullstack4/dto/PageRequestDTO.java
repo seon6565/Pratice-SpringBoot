@@ -55,7 +55,6 @@ public class PageRequestDTO {
     public String getLinkParams(){
         if(this.linkParams == null || linkParams.isEmpty()){
             StringBuilder sb = new StringBuilder();
-            sb.append("page="+this.page);
             sb.append("&page_size="+this.page_size);
 
             if(search_type !=null && !search_type.isEmpty()){
