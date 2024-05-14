@@ -54,4 +54,18 @@ public class BoardServiceTests {
         log.info("testView boardDTO : "+boardDTO);
         log.info("====================");
     }
+
+    @Test
+    public void testDelete(){
+        int idx = 10;
+        log.info("====================");
+        log.info("BoardServiceTests >> testView Start");
+
+        log.info("boardService.getClass().getName(): {}", boardService.getClass().getName());
+
+        boardService.delete(idx);
+
+        log.info("boardService delete ");
+        log.info("====================");
+    }
 }

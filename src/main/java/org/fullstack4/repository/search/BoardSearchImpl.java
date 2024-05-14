@@ -73,6 +73,6 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         int total = (int)query.fetchCount();
         log.info("keyword board : "+boards);
         log.info("keyword total : "+total);
-        return null;
+        return new PageImpl<>(boards,pageable,total);
     }
 }
