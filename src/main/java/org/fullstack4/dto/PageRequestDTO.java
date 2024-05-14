@@ -27,9 +27,9 @@ public class PageRequestDTO {
     @Builder.Default
     private int total_page = 1;
     @Builder.Default
-    private int page_skip_count = 10;
+    private int page_skip_count = 0;
     @Builder.Default
-    private int page_block_size = 0;
+    private int page_block_size = 10;
     @Builder.Default
     private int page_block_start = 1;
     @Builder.Default

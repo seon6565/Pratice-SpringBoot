@@ -33,16 +33,16 @@
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
                             <li class="page-item" th:if="${pageResponseDTO.prev_page_flag}">
-                                <a class="page-link" th:data-num="${pageResponseDTO.page_block_start -1}">Previous</a>
+                                <a th:href="@{/board/list(page=${pageResponseDTO.page_block_start -10},${pageResponseDTO.linkParams})}" class="page-link" th:data-num="${pageResponseDTO.page_block_start -10}">Previous</a>
                             </li>
 
                             <th:block th:each="i:${#numbers.sequence(pageResponseDTO.page_block_start,pageResponseDTO.page_block_end)}">
                                 <li th:class="${pageResponseDTO.getPage() == i} ? 'page-item active' : 'page-item'">
-                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                    <a th:href="@{/board/list(page=${i},${pageResponseDTO.linkParams})}" class="page-link" th:data-num="${i}">[[${i}]]</a>
                                 </li>
                             </th:block>
                             <li class="page-item" th:if="${pageResponseDTO.next_page_flag}">
-                                <a class="page-link" th:data-num="${pageResponseDTO.page_block_end+1}">Next</a>
+                                <a th:href="@{/board/list(page=${pageResponseDTO.page_block_end +1},${pageResponseDTO.linkParams})}" class="page-link" th:data-num="${pageResponseDTO.page_block_end+1}">Next</a>
                             </li>
                         </ul>
                     </div>

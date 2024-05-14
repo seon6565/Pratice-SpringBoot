@@ -45,6 +45,9 @@ public class PageResponseDTO<E> {
         this.page_block_size =pageRequestDTO.getPage_block_size();
         this.page_block_start =pageRequestDTO.getPage_block_start();
         this.page_block_end =pageRequestDTO.getPage_block_end();
+        setPage_block_start();
+        setPage_block_end();
+        page_block_end = (page_block_end >= total_page ? total_page :page_block_end);
         this.prev_page_flag = (this.page_block_start > 1);
         this.next_page_flag = (this.total_page >this.page_block_end);
         this.dtoList = dtoList;
@@ -62,7 +65,6 @@ public class PageResponseDTO<E> {
     public String getLinkParams(){
         if(this.linkParams == null || linkParams.isEmpty()){
             StringBuilder sb = new StringBuilder();
-            sb.append("page="+this.page);
             sb.append("&page_size="+this.page_size);
 
             if(search_type !=null && !search_type.isEmpty()){
