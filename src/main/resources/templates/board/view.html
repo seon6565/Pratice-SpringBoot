@@ -51,7 +51,81 @@
         </div>
     </div>
 </div>
+<script layout:fragment="script" th:inline="javascript">
+    const bbs_idx = [[${dto.idx}]];
+    const replyList = document.querySelector(".replyList");
+    const replyPaging = document.querySelector(".replyPaging");
 
+    function printReplyArea(page,page_size,goLast){
+        getReplyList({bbs_idx,page,page_size,goLast})
+            .then(
+                data=>{
+                    console.log(data);
+                    printReplayList(data.dtoList);
+                    printPaging(data.pageRequestDTO);
+                }
+            )
+            .catch(e=>{console.log(e);});
+    }
+    printReplyArea(1,10);
+    function printReplayList(dtoList){
+        let replyLi = "";
+        let reDate = "";
+        if(dtoList && dtoList.length >0){
+            for(const dto of dtoList) {
+                reDate = (dto.reply_date != null && dto.reply_date != ""
+                    && dto.reply_date != undefined && dto.reply_date != "undefined" ?
+                        dto.reply_date.toString().substring(0, 10) : "-");
+                replyLi += `<li class="list-group-item d-flex replyItem">
+                    <span class="col-2">${dto.idx}</span>
+                    <span class="col-6" data-idx="${dto.idx}">${dto.title}
+                    <span class="badge progress-bar-success replyDelete" style="background-color: #0a53be"
+                    onclick="replyDeleteOk(${dto.idx})">X</span></span>
+                    <span class="col-2">${dto.user_id}</span>
+                    <span class="col-2">${reDate}</span>
+                    </li>`;
+            }
+
+        }else{
+            replyLi += `<li class="list-group-item d-flex replyItem">
+                <span class="col-12">등록된 댓글이 없습니다.</span></li>`
+        }
+
+        replyList.innerHTML = replyLi;
+    }
+    function printPaging(data){
+        pagePrevLi = "";
+        pageLiList = "";
+        pageNextLi = "";
+        pageArea = "";
+        if(data.prev_page_flag){
+            pagePrevLi += `<li class="page-item">
+                <a class="page-link" data-page="${data.page_block_start -10}" >Prev</a>`
+        } else{
+            pagePrevLi += `<li class="page-item">
+                    <a class="page-link" data-page="${data.page_block_start - 10}" onclick="printReplyArea(${data.page_block_start - 10},10)">Prev</a>`
+        }
+
+        for(let i=data.page_block_start; i<=data.page_block_end; i++){
+            if(data.page==i){
+                pageLiList +=`<li class="page-item active"><a class="page-link data-page=${i}">${i}</a></li>`
+            } else{
+                pageLiList +=`<li class="page-item "><a class="page-link data-page=${i}" onclick="printReplyArea(${i},10)">${i}</a></li>`
+            }
+        }
+
+        if(data.next_page_flag){
+            pagePrevLi += `<li class="page-item">
+                <a class="page-link" data-page="${data.page_block_end+10}" >Next</a>`
+        } else{
+            pagePrevLi += `<li class="page-item">
+                    <a class="page-link" data-page="${data.page_block_end + 10}" onclick="printReplyArea(${data.page_block_end + 10},10)">Next</a>`
+        }
+
+        pageArea = pagePrevLi + pageLiList + pageNextLi;
+        replyPaging.innerHTML += pageArea;
+    }
+</script>
 
 
 </html>
